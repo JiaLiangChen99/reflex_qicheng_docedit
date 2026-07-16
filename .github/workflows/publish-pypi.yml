@@ -1,0 +1,50 @@
+# Publish to PyPI when a GitHub Release is published.
+#
+# Auth: repository secret PYPI_API_TOKEN (PyPI API token, typically starts with pypi-).
+# Create at https://pypi.org/manage/account/token/ and add under
+# GitHub → Settings → Secrets and variables → Actions → PYPI_API_TOKEN.
+name: Publish to PyPI
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install build
+        run: |
+          python -m pip install --upgrade pip build
+
+      - name: Build package
+        run: python -m build
+
+      - name: Verify wheel includes editor.jsx
+        run: |
+          python - <<'PY'
+          import glob, zipfile
+          wheels = glob.glob("dist/*.whl")
+          assert wheels, "no wheel built"
+          names = zipfile.ZipFile(wheels[0]).namelist()
+          assert "reflex_qicheng_docedit/editor.jsx" in names, names
+          assert "reflex_qicheng_docedit/__init__.py" in names, names
+          print("OK: jsx packaged in", wheels[0])
+          PY
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
+          # Token auth cannot mint attestations (needs OIDC). Keep false.
+          attestations: false

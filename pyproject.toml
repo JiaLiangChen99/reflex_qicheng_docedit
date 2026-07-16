@@ -1,0 +1,38 @@
+[project]
+name = "reflex-qicheng-docedit"
+version = "0.1.0"
+description = "Feishu-style block document editor for Reflex (personal package by qicheng)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "reflex>=0.9.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["reflex_qicheng_docedit"]
+[tool.hatch.build.targets.wheel.force-include]
+"reflex_qicheng_docedit/editor.jsx" = "reflex_qicheng_docedit/editor.jsx"
+"reflex_qicheng_docedit/panels/shared.jsx" = "reflex_qicheng_docedit/panels/shared.jsx"
+"reflex_qicheng_docedit/panels/basic.jsx" = "reflex_qicheng_docedit/panels/basic.jsx"
+"reflex_qicheng_docedit/panels/table.jsx" = "reflex_qicheng_docedit/panels/table.jsx"
+"reflex_qicheng_docedit/panels/task.jsx" = "reflex_qicheng_docedit/panels/task.jsx"
+"reflex_qicheng_docedit/panels/media.jsx" = "reflex_qicheng_docedit/panels/media.jsx"
+"reflex_qicheng_docedit/panels/insertMenu.jsx" = "reflex_qicheng_docedit/panels/insertMenu.jsx"
+"reflex_qicheng_docedit/panels/selectionToolbar.jsx" = "reflex_qicheng_docedit/panels/selectionToolbar.jsx"
+"reflex_qicheng_docedit/panels/imageExt.jsx" = "reflex_qicheng_docedit/panels/imageExt.jsx"
+"reflex_qicheng_docedit/panels/imageToolbar.jsx" = "reflex_qicheng_docedit/panels/imageToolbar.jsx"
+"reflex_qicheng_docedit/panels/highlightBlockExt.jsx" = "reflex_qicheng_docedit/panels/highlightBlockExt.jsx"
+"reflex_qicheng_docedit/panels/highlightBlockMenu.jsx" = "reflex_qicheng_docedit/panels/highlightBlockMenu.jsx"
+"reflex_qicheng_docedit/panels/highlightBlockToolbar.jsx" = "reflex_qicheng_docedit/panels/highlightBlockToolbar.jsx"
+"reflex_qicheng_docedit/panels/blockGutter.jsx" = "reflex_qicheng_docedit/panels/blockGutter.jsx"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/reflex_qicheng_docedit",
+    "/README.md",
+    "/pyproject.toml",
+]
