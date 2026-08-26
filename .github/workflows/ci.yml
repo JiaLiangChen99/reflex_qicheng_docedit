@@ -29,7 +29,15 @@ jobs:
 
       - name: Import smoke test
         run: |
-          python -c "from reflex_qicheng_docedit import doc_edit, DocEdit; print(DocEdit.__name__)"
+          rm -rf assets/external/reflex_qicheng_docedit/panels
+          python -c "
+          from pathlib import Path
+          from reflex_qicheng_docedit import doc_edit, DocEdit
+          panels = Path('assets/external/reflex_qicheng_docedit/panels')
+          assert panels.is_dir(), 'panels dir not created on import'
+          assert len(list(panels.glob('*.jsx'))) >= 13, 'panel symlinks missing'
+          print(DocEdit.__name__, 'OK')
+          "
 
   build:
     runs-on: ubuntu-latest

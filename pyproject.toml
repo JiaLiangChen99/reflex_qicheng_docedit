@@ -1,6 +1,6 @@
 [project]
 name = "reflex-qicheng-docedit"
-version = "0.1.0"
+version = "0.1.1"
 description = "Feishu-style block document editor for Reflex (personal package by qicheng)"
 readme = "README.md"
 requires-python = ">=3.10"

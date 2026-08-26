@@ -26,9 +26,21 @@ from reflex.components.component import NoSSRComponent
 
 _PKG = Path(__file__).resolve().parent
 _PKG_NAME = "reflex_qicheng_docedit"
-(_PKG.parent / "assets" / "external" / _PKG_NAME / "panels").mkdir(
-    parents=True, exist_ok=True
-)
+
+
+def _ensure_consumer_asset_dirs() -> None:
+    """确保消费方项目的 external assets 目录存在。
+
+    rx.asset(shared=True) 只会 mkdir 包名一级目录；panels/*.jsx 等多级
+    路径的 symlink 目标父目录需由库侧提前创建（pip 安装时 _PKG.parent
+    在 site-packages，不能在那里建目录）。
+    """
+    base = Path.cwd() / "assets" / "external" / _PKG_NAME
+    base.mkdir(parents=True, exist_ok=True)
+    (base / "panels").mkdir(parents=True, exist_ok=True)
+
+
+_ensure_consumer_asset_dirs()
 
 _jsx_path = rx.asset("./editor.jsx", shared=True)
 
